@@ -184,7 +184,7 @@ This paper is organized as follows. In section 2, the SRRT approach is outlined 
     The Multiphysics Object-Oriented Simulation Environment (MOOSE) is used as a tool to solve the balance equations for point defects numerically. MOOSE is an open-source framework that provides users with several capabilities to solve partial differential equations (PDEs). It contains a multitude of built-in features such as different linear and non-linear solvers, different integration schemes, mesh and time adaptivity, mesh generation and post-processing options, and many more. \citep{permann2020}. MOOSE has been utilized before to investigate irradiation effects and coevolution of microstructure and properties in materials \citep{ahmed2020,tonks2018,ahmed2018,ozturk2018,ozturk2019,abdoelatef2019,badry2019,badry2021}.
     
     %Equations were solved in both Cartesian and spherical coordinates to represent planar and spherical geometries, respectively.
-    Simulations in this study are modeled in 1D domains. Equations were first solved for a test case in both Cartesian and spherical coordinates to represent planar and spherical geometries, respectively. The difference in results was not significant, so Cartesian coordinate system was used in simulations unless otherwise stated. The domain boundaries are assumed to represent free surfaces or grain boundaries. Hence, they are modeled as perfect and neutral, i.e., point defects take on their equilibrium values at the boundaries. Sinks such as voids and dislocations, which are present in the bulk, are assumed uniformly distributed with a concentration of 1e18 $m^{-3}$. 1D first-order Lagrange elements were used for spatial discretization and a second-order implicit scheme was utilized for time integration. A grid size in the range of 0.1-1 $nm$ was used in the simulations. Mesh sensitivity studies were conducted, and the results reported here are confirmed to be independent of grid size within the range mentioned. A length scale, l, that is much smaller than the lowest grain size was used in our simulations. Since the smallest grain size was 5nm, a length scale of 0.1 nm was used in all simulations.
+   We conducted 1D simulations in this study. The kinetic equations were solved in both Cartesian and spherical coordinates to represent planar and spherical grains. The trends were similar, and the differences were minor. Hence, for most of the results presented here, Cartesian coordinates were used unless stated otherwise. The domain boundaries are assumed to represent free surfaces or grain boundaries. Hence, they are modeled as perfect and neutral, i.e., point defects take on their equilibrium values at the boundaries. Sinks such as voids and dislocations, which are present in the bulk, are assumed uniformly distributed with a concentration of 1e18 $m^{-3}$. 1D first-order Lagrange elements were used for spatial discretization and a second-order implicit scheme was utilized for time integration. A grid size in the range of 0.1-1 $nm$ was used in the simulations. Mesh sensitivity studies were conducted, and the results reported here are confirmed to be independent of grid size within the range mentioned. A length scale, l, that is much smaller than the lowest grain size was used in our simulations. Since the smallest grain size was 5nm, a length scale of 0.1 nm was used in all simulations.
     
     Ni-based alloys are used in many nuclear reactors because of their excellent corrosion resistance and high mechanical properties. For example, Ni-based alloys containing 15-30\% Cr are generally used in the cooling systems of reactors due to their corrosion resistance. Ni-Cr based alloys are also candidates for structural materials in molten-salt reactors. Therefore, here we selected Nickel as a base material for this study. Ni properties used in the simulations: lattice parameter, $a$, is 0.352 $nm$, atomic volume, $\Omega$ , is 0.01206 $nm^3$, migration energy for interstitial, $E_{m,i}$, is 0.30 $eV$ , migration energy for vacancy, $E_{m,v}$, is 1.30 $eV$ , formation energy for interstitial, $E_{f,i}$, is 4.27 $eV$ , formation energy for vacancy, $E_{f,v}$, is 1.60 $eV$ , pre-exponential diffusion coefficient for interstitial, $D_{0,i}$, is 1e-7 $m^2/s$, and pre-exponential diffusion coefficient for vacancy, $D_{0,v}$, is 6e-5 $m^2/s$ \citep{walgraef1996,zhao2016}. In most of the simulations presented here, a temperature of 773 $K$ was assumed unless otherwise explicitly stated. The temperature dependence of diffusion coefficients follows the well-known Arrhenius relationship. Reaction rate constants, $K_{iv}$, $K_{is}$ and $K_{vs}$ are calculated using Eq. \ref{equation:rate_constants}. The value for the interaction radii, $r_{xy}$, is 3.52 $nm$. The calculated reaction rate constants, $K_{xy}$ and $K_{xs}$, are 4.8958e-17 $m^3/s$ and 3.7795e-21 $m^3/s$.
     
@@ -375,18 +375,15 @@ To validate the numerical implementation of the balance equations of point defec
       \end{aligned}
     \end{equation}\\
     where ${d}$ is diameter of the grain, ${d=2a}$.
-  
-    For the benchmark problem of a spherical grain described earlier, grain boundary sink strengths, $Z_{gb}$ and $k^2_{gb}$, are calculated analytically by substituting Eq. \ref{equation:spherical_grain_analytical_solution} into the expressions above. First, the concentration at the grain center and total flow at the grain boundary are expressed in terms of the production rate and the bulk sink strength, $k^2$ as follows \cite{heald1977}.\\
-
+    
+    For the benchmark problem of a spherical grain described earlier, grain boundary sink strengths, $Z_{gb}$ and $k^2_{gb}$, are calculated analytically by substituting Eq. \ref{equation:spherical_grain_analytical_solution} into the expressions above. First, the concentration at the grain center and total flow at the grain boundary are expressed in terms of the production rate and the bulk sink strength, $k^2$ as follows \cite{heald1977}.\\\\
     \begin{equation}
       \begin{aligned}
         &C_0=C(r=0)=\frac{K_0}{Dk^2}\bigg(1-\frac{ka}{\sinh{ka}}\bigg)\\\\
         &F=-\bigg(4\pi r^2D\frac{\partial C(r)}{\partial r}\bigg)_{r=a}=\frac{4\pi aK_0}{k^2}\bigg(ka\coth{ka}-1\bigg)
       \end{aligned}
-    \end{equation}\\
-    
-    Then, grain boundary sink strengths are given by
-    
+    \end{equation}\\\\
+    Then, grain boundary sink strengths are given by\\\\
     \begin{equation}
       \begin{aligned}
         &Z_{gb}=4\pi a\bigg(\frac{ka\cosh ka-\sinh ka}{\sinh ka-ka}\bigg)\\
@@ -486,8 +483,7 @@ The diffusivity of element k (Cr or Ni) for defect x (interstitial or vacancy), 
     \end{aligned}
     \label{equation:RIS_diffusivity}
 \end{equation}
-where ${d_0}^{x,k}$ is pre-exponential factor of Ni or Cr for vacancy or interstitial, ${{E_m}^{x,k}}$ is the migration energy of Ni or Cr for the vacancy or interstitial, $T$ is temperature and $k$ is the Boltzmann constant.
-
+where ${d_0}^{x,k}$ is pre-exponential factor of Ni or Cr for vacancy or interstitial, ${{E_m}^{x,k}}$ is the migration energy of Ni or Cr for the vacancy or interstitial, $T$ is temperature and $k$ is the Boltzmann constant.\\\\
 We expressed the partial diffusion coefficient by $D = dN$, where $N$ is atomic fraction and $d$ is diffusivity (see Eq. \ref{equation:RIS_diffusivity}). The spatial dependence resides in the $N$. In contrast, the $d$ is composition independent and contains the kinetic and diffusion information \citep{wiedersich_theory_1979}.
 
 \begin{equation}\begin{aligned}
@@ -500,8 +496,7 @@ We expressed the partial diffusion coefficient by $D = dN$, where $N$ is atomic 
         \label{equation:RIS_partial}
         \end{aligned}
      \end{equation}
-where $D_{i}^{Cr}$ and $D_{i}^{Ni}$ are the partial diffusion coefficients for interstitials via Cr and Ni atoms,  $D_{v}^{Cr}$ and $D_{v}^{Ni}$ are the partial diffusion coefficients for vacancies via Cr and Ni atoms, $D_{Cr}^{v}$ and $D_{Cr}^{i}$ are the partial diffusion coefficients for Cr atoms via vacancies and interstitials. 
-
+where $D_{i}^{Cr}$ and $D_{i}^{Ni}$ are the partial diffusion coefficients for interstitials via Cr and Ni atoms,  $D_{v}^{Cr}$ and $D_{v}^{Ni}$ are the partial diffusion coefficients for vacancies via Cr and Ni atoms, $D_{Cr}^{v}$ and $D_{Cr}^{i}$ are the partial diffusion coefficients for Cr atoms via vacancies and interstitials.\\\\
 The total diffusion coefficients for the vacancies, interstitials and Cr atoms are given as $D_{v}$, $D_{i}$ and $D_{Cr}$, respectively.
 \begin{equation}
     \begin{aligned}
@@ -511,10 +506,8 @@ The total diffusion coefficients for the vacancies, interstitials and Cr atoms a
     \end{aligned}
     \label{equation:RIS_totaldiffusioncoefficients}
  \end{equation}   
-where $d_{v,Cr}$ and $d_{i,Cr}$ are the vacancy and interstitial diffusivities for Cr, $d_{v,Ni}$ and $d_{i,Ni}$ are the vacancy and interstitial diffusivities for Ni. 
-
+where $d_{v,Cr}$ and $d_{i,Cr}$ are the vacancy and interstitial diffusivities for Cr, $d_{v,Ni}$ and $d_{i,Ni}$ are the vacancy and interstitial diffusivities for Ni.
 Therefore, fluxes take on the following expressions,
- 
  \begin{equation}
     \begin{aligned}
     &J_{v} = d_{v,Cr}\Omega C_{v}\nabla C_{Cr} + d_{v,Ni}\Omega C_{v}\nabla C_{Ni} - D_{v}\nabla C_{v}\\
@@ -578,7 +571,7 @@ the instability is absent (see Fig. \ref{figure:RIS_473vs773vs1073}a). However, 
 
 In this work, we conducted a detailed study of the effects of surface and size on the transient and steady-state behavior of point defects in irradiated solids. Pure Ni and Ni-Cr were utilized as model systems. The balance equations for point defects were solved simultaneously using a fully-coupled and fully-implicit scheme implemented in the MOOSE framework.    
 
-It was found that, in the presence of production bias, the effects of surface and size are pronounced even at low the surface to volume ratio. This was attributed to a surface-induced and size-regulated instability. This instability appears above a critical size between 100-500 $nm$. The critical size decreases with increasing dose rate and/or production bias or lowering the temperature. Our detailed analysis revealed that this instability is triggered due to the fact that production bias breaks the symmetry of point defects flow to the surface/boundary, effectively transforming it into a biased sink. Below the critical temperature and at the threshold size, the imbalance in the flow of point defects is enough to create a pattern that favors the separation of vacancies and interstitials. Once this pattern develops, anomalies in the dependence on size for the steady-state concentrations of point defects and the surface/boundary sink strength are observed. Specifically, it is shown that once this instability is initiated, while the steady-state vacancy concentration continues to increase with size, its interstitial counterpart starts to decrease with size. On the other hand, while the surface/boundary sink strength for vacancies continue to decrease with size, its interstitials counterpart starts to increase with size. Hence, the developed instability and the resultant patterns will promote irradiation effects in materials. Indeed, this was demonstrated here by investigating vacancy supersaturation in Pure Ni and radiation-induced segregation in Ni-Cr. In the former, it was shown that vacancy supersaturation in Ni increases with size and the rate of increase also rises with size. In the latter, it was shown that the magnitude of enrichment/depletion of Ni/Cr at the boundary increases with size and the width of the enrichment/depletion layer also increases with size.
+It was found that in the presence of production bias, the effects of surface and size are pronounced even at low surface to volume ratio. This was attributed to a surface-induced and size-regulated instability. This instability appears above a critical size between 100-500 $nm$. The critical size decreases with increasing dose rate and/or production bias or lowering the temperature. Our detailed analysis revealed that this instability is triggered due to the fact that production bias breaks the symmetry of point defects flow to the surface/boundary, effectively transforming it into a biased sink. Below the critical temperature and at the threshold size, the imbalance in the flow of point defects is enough to create a pattern that favors the separation of vacancies and interstitials. Once this pattern develops, anomalies in the dependence on size for the steady-state concentrations of point defects and the surface/boundary sink strength are observed. Specifically, it is shown that once this instability is initiated, while the steady-state vacancy concentration continues to increase with size, its interstitial counterpart starts to decrease with size. On the other hand, while the surface/boundary sink strength for vacancies continue to decrease with size, its interstitials counterpart starts to increase with size. Hence, the developed instability and the resultant patterns will promote irradiation effects in materials. Indeed, this was demonstrated here by investigating vacancy supersaturation in Pure Ni and radiation-induced segregation in Ni-Cr. In the former, it was shown that vacancy supersaturation in Ni increases with size and the rate of increase also rises with size. In the latter, it was shown that the magnitude of enrichment/depletion of Ni/Cr at the boundary increases with size and the width of the enrichment/depletion layer also increases with size.
 
 It is worth noting that the above-mentioned instability and the resultant pattern and anomalies are absent in nanomaterials (with sizes $<$ 100 $nm$). This gives a new perspective on the resistance of these materials to irradiation as opposed to the susceptibility of conventional materials (with sizes $>$ 100 $nm$) to irradiation. In conventional materials, the developed pattern of point defects facilitates the clustering and formation of extended defects. Conversely, the exact opposite is observed in nanomaterials.
 
